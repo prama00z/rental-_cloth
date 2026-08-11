@@ -1,0 +1,9 @@
+from jose import jwt
+
+
+SECRET_KEY = "cloth-rental-secret-key-2026"
+ALGORITHM = "HS256"
+
+
+def create_access_token(data: dict):
+    return jwt.encode(data, SECRET_KEY, algorithm=ALGORITHM)

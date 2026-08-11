@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+sqlalchemy
+pymysql
+python-dotenv
+python-jose
+passlib
+uvicorn
+sqlalchemy
+pymysql
+python-dotenv
+python-jose
+passlib

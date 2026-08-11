@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clothes - Rental</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: white;
+            margin: 0;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            border: 1px solid #ddd;
+            padding: 25px;
+            border-radius: 8px;
+        }
+
+        input, textarea, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        #message {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Add Cloth</h1>
+
+    <form id="clothForm">
+
+        <label>Vendor ID</label>
+        <input type="number" id="vendor_id" value="1" required>
+
+        <label>Cloth Name</label>
+        <input type="text" id="cloth_name" placeholder="Classic Black Suit" required>
+
+        <label>Category</label>
+        <input type="text" id="category" placeholder="Formal" required>
+
+        <label>Size</label>
+        <input type="text" id="size" placeholder="M" required>
+
+        <label>Price</label>
+        <input type="number" id="price" placeholder="1500" required>
+
+        <label>Availability</label>
+        <input type="text" id="availability" value="Available" required>
+
+        <label>Description</label>
+        <textarea id="description" placeholder="Black formal suit for rental" required></textarea>
+
+        <button type="submit">Add Cloth</button>
+
+    </form>
+
+    <div id="message"></div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
