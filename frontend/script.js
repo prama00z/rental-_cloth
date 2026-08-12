@@ -1,6 +1,8 @@
 const API_URL = "http://127.0.0.1:8001";
 
 
+// ==================== SIGNUP ====================
+
 const signupForm = document.getElementById("signupForm");
 
 if (signupForm) {
@@ -34,6 +36,8 @@ if (signupForm) {
 }
 
 
+// ==================== LOGIN ====================
+
 const loginForm = document.getElementById("loginForm");
 
 if (loginForm) {
@@ -63,6 +67,10 @@ if (loginForm) {
         }
     });
 }
+
+
+// ==================== ADD CLOTH ====================
+
 const clothForm = document.getElementById("clothForm");
 
 if (clothForm) {
@@ -80,7 +88,7 @@ if (clothForm) {
         };
 
         try {
-            const response = await fetch("http://127.0.0.1:8001/clothes/", {
+            const response = await fetch(`${API_URL}/clothes/`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -93,7 +101,12 @@ if (clothForm) {
             if (response.ok) {
                 document.getElementById("message").textContent =
                     "Cloth added successfully!";
+
                 clothForm.reset();
+
+                // Refresh clothes list
+                loadClothes();
+
             } else {
                 document.getElementById("message").textContent =
                     data.detail || "Failed to add cloth.";
@@ -102,7 +115,112 @@ if (clothForm) {
         } catch (error) {
             document.getElementById("message").textContent =
                 "Could not connect to backend.";
+
             console.error(error);
         }
     });
 }
+
+
+// ==================== ADD VENDOR ====================
+
+const vendorForm = document.getElementById("vendorForm");
+
+if (vendorForm) {
+    vendorForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const vendorData = {
+            vendor_name: document.getElementById("vendor_name").value,
+            email: document.getElementById("email").value,
+            phone: document.getElementById("phone").value,
+            address: document.getElementById("address").value
+        };
+
+        try {
+            const response = await fetch(`${API_URL}/vendors/`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(vendorData)
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                document.getElementById("message").textContent =
+                    "Vendor added successfully!";
+
+                vendorForm.reset();
+
+            } else {
+                document.getElementById("message").textContent =
+                    data.detail || "Failed to add vendor.";
+            }
+
+        } catch (error) {
+            document.getElementById("message").textContent =
+                "Could not connect to backend.";
+
+            console.error(error);
+        }
+    });
+}
+
+
+// ==================== LOAD CLOTHES ====================
+
+async function loadClothes() {
+
+    const clothesList = document.getElementById("clothesList");
+
+    if (!clothesList) {
+        return;
+    }
+
+    try {
+
+        const response = await fetch(`${API_URL}/clothes/`);
+
+        if (!response.ok) {
+            throw new Error("Failed to load clothes");
+        }
+
+        const clothes = await response.json();
+
+        clothesList.innerHTML = "";
+
+        if (clothes.length === 0) {
+            clothesList.textContent = "No clothes available.";
+            return;
+        }
+
+        clothes.forEach(function (cloth) {
+
+            const item = document.createElement("div");
+
+            item.innerHTML = `
+                <h3>${cloth.cloth_name}</h3>
+                <p>Category: ${cloth.category}</p>
+                <p>Size: ${cloth.size}</p>
+                <p>Price: ₹${cloth.price}</p>
+                <p>Availability: ${cloth.availability}</p>
+                <p>${cloth.description}</p>
+                <hr>
+            `;
+
+            clothesList.appendChild(item);
+        });
+
+    } catch (error) {
+
+        clothesList.textContent = "Could not load clothes.";
+
+        console.error(error);
+    }
+}
+
+
+// Load clothes when page opens
+loadClothes();

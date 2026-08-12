@@ -38,3 +38,28 @@ def create_cloth(cloth: ClothCreate):
     return {
         "message": "Cloth added successfully"
     }
+@router.get("/")
+def get_clothes():
+    conn = get_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    query = """
+        SELECT
+            cloth_id,
+            vendor_id,
+            cloth_name,
+            category,
+            size,
+            price,
+            availability,
+            description
+        FROM clothes
+    """
+
+    cursor.execute(query)
+    clothes = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    return clothes

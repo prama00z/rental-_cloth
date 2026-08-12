@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendor Registration</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: white;
+            margin: 0;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: auto;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            border: 1px solid #ddd;
+            padding: 25px;
+            border-radius: 8px;
+        }
+
+        input,
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        #message {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Vendor Registration</h1>
+
+    <form id="vendorForm">
+
+        <label>Vendor Name</label>
+        <input
+            type="text"
+            id="vendor_name"
+            placeholder="Style Rentals"
+            required
+        >
+
+        <label>Email</label>
+        <input
+            type="email"
+            id="email"
+            placeholder="style@rental.com"
+            required
+        >
+
+        <label>Phone</label>
+        <input
+            type="text"
+            id="phone"
+            placeholder="9876543210"
+            required
+        >
+
+        <label>Address</label>
+        <input
+            type="text"
+            id="address"
+            placeholder="Chennai"
+            required
+        >
+
+        <button type="submit">Register Vendor</button>
+
+    </form>
+
+    <div id="message"></div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>

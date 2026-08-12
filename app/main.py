@@ -1,9 +1,21 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
 from app.api.user import router as user_router
 from app.api.clothes import router as clothes_router
 from app.api.vendor import router as vendor_router
 
+
 app = FastAPI(title="Cloth Rental Platform")
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.get("/")
