@@ -9,7 +9,7 @@ import {
 import axios from "axios";
 import "./App.css";
 
-const API_URL = "http://127.0.0.1:8001";
+const API_URL = "https://rental-cloth.onrender.com";
 
 function Login() {
     const navigate = useNavigate();
