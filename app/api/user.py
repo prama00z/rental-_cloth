@@ -22,13 +22,18 @@ def signup(user: UserSignup):
     hashed_password = pwd_context.hash(user.password)
 
     query = """
-        INSERT INTO users (name, email, password)
-        VALUES (%s, %s, %s)
+        INSERT INTO users (name, email, password, role)
+        VALUES (%s, %s, %s, %s)
     """
 
     cursor.execute(
         query,
-        (user.name, user.email, hashed_password)
+        (
+            user.name,
+            user.email,
+            hashed_password,
+            user.role
+        )
     )
 
     conn.commit()
@@ -37,9 +42,10 @@ def signup(user: UserSignup):
     conn.close()
 
     return {
-        "message": "User signup successful",
+        "message": "Signup successful",
         "name": user.name,
-        "email": user.email
+        "email": user.email,
+        "role": user.role
     }
 
 
@@ -69,12 +75,14 @@ def login(user: UserLogin):
     access_token = create_access_token(
         {
             "sub": str(db_user["user_id"]),
-            "email": db_user["email"]
+            "email": db_user["email"],
+            "role": db_user["role"]
         }
     )
 
     return {
         "message": "Login successful",
         "access_token": access_token,
-        "token_type": "bearer"
+        "token_type": "bearer",
+        "role": db_user["role"]
     }
