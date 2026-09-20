@@ -64,6 +64,9 @@ if (loginForm) {
 
         if (data.access_token) {
             localStorage.setItem("access_token", data.access_token);
+
+            // After login, go to vendor registration
+            window.location.href = "vendor.html";
         }
     });
 }
@@ -154,6 +157,9 @@ if (vendorForm) {
 
                 vendorForm.reset();
 
+                // After vendor registration, go to clothes page
+                window.location.href = "cloths.html";
+
             } else {
                 document.getElementById("message").textContent =
                     data.detail || "Failed to add vendor.";
@@ -222,5 +228,6 @@ async function loadClothes() {
 }
 
 
-// Load clothes when page opens
+// ==================== LOAD CLOTHES ON PAGE OPEN ====================
+
 loadClothes();
