@@ -7,6 +7,7 @@ from app.api.vendor import router as vendor_router
 from app.api.booking import router as booking_router
 from app.api.payment import router as payment_router
 
+
 app = FastAPI(title="Cloth Rental Platform")
 
 
@@ -22,6 +23,7 @@ app.add_middleware(
         "http://localhost:5175",
         "https://rental-cloth-beige.vercel.app",
     ],
+    allow_origin_regex=r"^https://.*\.vercel\.app$",
     allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -30,12 +32,16 @@ app.add_middleware(
 
 @app.get("/")
 def home():
-    return {"message": "Cloth Rental Platform API is running"}
+    return {
+        "message": "Cloth Rental Platform API is running"
+    }
 
 
 @app.get("/health")
 def health_check():
-    return {"status": "healthy"}
+    return {
+        "status": "healthy"
+    }
 
 
 app.include_router(user_router)
