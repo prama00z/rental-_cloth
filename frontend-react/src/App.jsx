@@ -261,21 +261,52 @@ function Signup() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const handleSignup = async (event) => {
-        event.preventDefault();
+    const handleSignup = async () => {
+        setMessage("");
+
+        const cleanName = name.trim();
+        const cleanEmail = email.trim();
 
         if (!role) {
             setMessage("Please select User or Vendor.");
             return;
         }
 
+        if (!cleanName) {
+            setMessage("Please enter your full name.");
+            return;
+        }
+
+        if (!cleanEmail) {
+            setMessage("Please enter your email address.");
+            return;
+        }
+
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) {
+            setMessage("Please enter a valid email address.");
+            return;
+        }
+
+        if (!password) {
+            setMessage("Please enter a password.");
+            return;
+        }
+
+        if (isSubmitting) {
+            return;
+        }
+
+        setIsSubmitting(true);
+        setMessage("Creating account...");
+
         try {
             const response = await axios.post(
                 `${API_URL}/users/signup`,
                 {
-                    name,
-                    email,
+                    name: cleanName,
+                    email: cleanEmail,
                     password,
                     role,
                 }
@@ -295,8 +326,10 @@ function Signup() {
             setMessage(
                 error.response?.data?.detail ||
                 error.response?.data?.message ||
-                "Signup failed."
+                "Signup failed. Please try again."
             );
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -387,7 +420,15 @@ function Signup() {
                     </button>
                 </div>
 
-                <form onSubmit={handleSignup}>
+                <div
+                    className="signup-form"
+                    onKeyDown={(event) => {
+                        if (event.key === "Enter") {
+                            event.preventDefault();
+                            handleSignup();
+                        }
+                    }}
+                >
                     <div className="input-box">
                         <span>👤</span>
 
@@ -398,7 +439,6 @@ function Signup() {
                             onChange={(e) =>
                                 setName(e.target.value)
                             }
-                            required
                         />
                     </div>
 
@@ -412,7 +452,6 @@ function Signup() {
                             onChange={(e) =>
                                 setEmail(e.target.value)
                             }
-                            required
                         />
                     </div>
 
@@ -426,18 +465,29 @@ function Signup() {
                             onChange={(e) =>
                                 setPassword(e.target.value)
                             }
-                            required
                         />
                     </div>
 
                     <button
                         className="create-account-btn"
-                        type="submit"
+                        type="button"
+                        onClick={handleSignup}
+                        disabled={isSubmitting}
+                        style={{
+                            position: "relative",
+                            zIndex: 9999,
+                            pointerEvents: "auto",
+                            touchAction: "manipulation",
+                        }}
                     >
-                        <span>Create Account</span>
-                        <span>→</span>
+                        <span>
+                            {isSubmitting
+                                ? "Creating Account..."
+                                : "Create Account"}
+                        </span>
+                        <span>{isSubmitting ? "..." : "→"}</span>
                     </button>
-                </form>
+                </div>
 
                 {message && (
                     <p className="signup-message">
