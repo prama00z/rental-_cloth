@@ -11,6 +11,23 @@ import "./App.css";
 
 const API_URL = "https://rental-cloth.onrender.com";
 
+const CLOTH_IMAGES = {
+    dress: "https://upload.wikimedia.org/wikipedia/commons/4/4c/Woman_in_Red_Dress.jpg",
+    saree: "https://upload.wikimedia.org/wikipedia/commons/3/31/Indian_Woman_in_Saree.jpg",
+    sherwani: "https://upload.wikimedia.org/wikipedia/commons/8/81/Sherwani.jpg",
+    suit: "https://upload.wikimedia.org/wikipedia/commons/4/40/Suit_by_Coco_Chanel%2C_c._1955%2C_wool%2C_silk_-_Mus%C3%A9e_de_la_mode_-_Montreal%2C_Canada_-_DSC07028.jpg",
+};
+
+const getClothImage = (cloth) => {
+    const text = `${cloth?.cloth_name || ""} ${cloth?.category || ""}`.toLowerCase();
+
+    if (text.includes("saree")) return CLOTH_IMAGES.saree;
+    if (text.includes("sherwani")) return CLOTH_IMAGES.sherwani;
+    if (text.includes("suit") || text.includes("tuxedo")) return CLOTH_IMAGES.suit;
+
+    return CLOTH_IMAGES.dress;
+};
+
 function Login() {
     const navigate = useNavigate();
 
@@ -979,7 +996,21 @@ function VendorClothes() {
                                 key={cloth.cloth_id}
                             >
                                 <div className="cloth-image-placeholder">
-                                    👗
+                                    <img
+                                        src={getClothImage(cloth)}
+                                        alt={cloth.cloth_name}
+                                        loading="lazy"
+                                        onError={(event) => {
+                                            event.currentTarget.onerror = null;
+                                            event.currentTarget.src = CLOTH_IMAGES.dress;
+                                        }}
+                                        style={{
+                                            width: "100%",
+                                            height: "100%",
+                                            objectFit: "cover",
+                                            display: "block",
+                                        }}
+                                    />
                                 </div>
 
                                 <div className="cloth-card-body">
@@ -1273,7 +1304,20 @@ function ClothDetails() {
                 <div className="cloth-details-content">
 
                     <div className="cloth-details-image">
-                        👗
+                        <img
+                            src={getClothImage(cloth)}
+                            alt={cloth.cloth_name}
+                            onError={(event) => {
+                                event.currentTarget.onerror = null;
+                                event.currentTarget.src = CLOTH_IMAGES.dress;
+                            }}
+                            style={{
+                                width: "100%",
+                                height: "100%",
+                                objectFit: "cover",
+                                display: "block",
+                            }}
+                        />
                     </div>
 
                     <div className="cloth-details-info">
